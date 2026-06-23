@@ -3,3 +3,4 @@ flask-cors
 pinecone
 python-dotenv
 gunicorn
+typing_extensions
