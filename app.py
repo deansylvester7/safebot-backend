@@ -176,7 +176,7 @@ def ask():
                     try:
                         pages = list(ref.pages)
 
-                        page = min(pages) if pages else 1
+                        page = max(pages) if pages else 1
 
                         source = {
                             "title": get_section_title(page),
