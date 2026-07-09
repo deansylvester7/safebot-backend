@@ -219,3 +219,34 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
+@app.route("/manual-viewer")
+def manual_viewer():
+    return """
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>T&T HSE Manual</title>
+
+<style>
+html, body {
+    margin:0;
+    height:100%;
+}
+
+iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<iframe src="/manual"></iframe>
+
+</body>
+</html>
+"""
