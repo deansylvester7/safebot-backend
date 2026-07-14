@@ -177,6 +177,7 @@ def ask():
                 for ref in citation.references:
                     try:
                         pages = sorted(list(ref.pages))
+                        print("Citation pages:", pages)
 
                         page = pages[0] if pages else 1
 
