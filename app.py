@@ -93,21 +93,96 @@ def get_section_title(page):
 def find_matching_section(question):
     q = question.lower()
 
-    for start_page, section in SECTION_STARTS:
-        section_name = (
-            section.lower()
-            .replace(" program", "")
-            .replace(" safety", "")
-            .replace(" awareness", "")
-        )
+    aliases = {
+        "abrasive blasting": "Abrasive Blasting Program",
+        "medical records": "Access to Medical Records Program",
+        "aerial lift": "Aerial Lifts Program",
+        "arsenic": "Arsenic Awareness Program",
+        "asbestos": "Asbestos Awareness Program",
+        "grounding": "Assured Grounding Conductors",
+        "behavior": "Behavior Based Safety Program",
+        "benzene": "Benzene Exposure Control Program",
+        "bloodborne": "Bloodborne Pathogens Program",
+        "cadmium": "Cadmium Program",
+        "cold weather": "Cold Weather Safety Program",
+        "compressed air": "Compressed Air Safety Program",
+        "concrete": "Concrete and Masonry Program",
+        "masonry": "Concrete and Masonry Program",
+        "confined space": "Confined Space Safety Program",
+        "confined spaces": "Confined Space Safety Program",
+        "crane": "Cranes Program (US)",
+        "cranes": "Cranes Program (US)",
+        "demolition": "Demolition and Blasting",
+        "driving": "Driving Safety Program",
+        "electrical": "Electrical Safety Program",
+        "emergency": "Emergency Action Plan",
+        "jsa": "Hazard Analysis (JSA)",
+        "hazard analysis": "Hazard Analysis (JSA)",
+        "excavation": "Excavations and Trenching",
+        "excavations": "Excavations and Trenching",
+        "trenching": "Excavations and Trenching",
+        "fall protection": "Fall Protection Program",
+        "fire": "Fire Protection",
+        "first aid": "First Aid",
+        "forklift": "Forklifts & Powered Industrial Trucks",
+        "forklifts": "Forklifts & Powered Industrial Trucks",
+        "waste": "Waste Management",
+        "gfci": "GFCI Program",
+        "hand tools": "Hand and Power Tools",
+        "power tools": "Hand and Power Tools",
+        "hazard communication": "Hazard Communication",
+        "heat": "Heat Illness Prevention",
+        "heavy equipment": "Heavy Equipment",
+        "chromium": "Hexavalent Chromium",
+        "housekeeping": "Housekeeping",
+        "slips": "Slips, Trips & Falls",
+        "trips": "Slips, Trips & Falls",
+        "falls": "Slips, Trips & Falls",
+        "hydrogen sulfide": "Hydrogen Sulfide",
+        "incident": "Incident Investigation",
+        "radiation": "Ionizing Radiation",
+        "ladder": "Ladder Safety",
+        "ladders": "Ladder Safety",
+        "lead": "Lead Awareness",
+        "lockout": "Lockout / Tagout",
+        "tagout": "Lockout / Tagout",
+        "loto": "Lockout / Tagout",
+        "machine guarding": "Machine Guarding",
+        "lifting": "Manual Lifting",
+        "material handling": "Material Handling & Storage",
+        "mobile equipment": "Mobile Equipment",
+        "hearing": "Noise & Hearing Conservation",
+        "noise": "Noise & Hearing Conservation",
+        "ppe": "Personal Protective Equipment (PPE)",
+        "personal protective equipment": "Personal Protective Equipment (PPE)",
+        "maintenance": "Preventative Maintenance",
+        "respirator": "Respiratory Protection",
+        "respiratory": "Respiratory Protection",
+        "rigging": "Rigging",
+        "risk assessment": "Risk Assessment",
+        "scaffold": "Scaffolds",
+        "scaffolding": "Scaffolds",
+        "stop work": "Stop Work Authority",
+        "traffic": "Traffic Control",
+        "welding": "Welding, Cutting & Hot Work",
+        "hot work": "Welding, Cutting & Hot Work",
+        "working alone": "Working Alone",
+        "silica": "Silica Exposure",
+        "fleet": "Fleet Safety",
+        "overhead crane": "Overhead & Gantry Cranes",
+    }
 
-        if section_name in q:
-            return {
-                "title": section,
-                "page": start_page
-            }
+    for keyword, section_name in aliases.items():
+        if keyword in q:
+            for start_page, section in SECTION_STARTS:
+                if section == section_name:
+                    return {
+                        "title": section,
+                        "page": start_page,
+                    }
 
     return None
+
 
 app = Flask(__name__)
 print("APP VERSION WITH MANUAL ROUTE LOADED")
@@ -211,13 +286,7 @@ def ask():
                     except Exception as e:
                         print("Citation error:", e)
                         if preferred_section:
-                            sources = [
-                                preferred_section,
-                                *[
-                                    s for s in sources
-                                    if s["title"] != preferred_section["title"]
-                                ]
-                            ]
+                            sources = [preferred_section]
 
         log_entry = {
             "question": question,
