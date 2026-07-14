@@ -1,3 +1,5 @@
+from weakref import ref
+
 from flask import Flask, request, jsonify, send_file, redirect
 from pinecone import Pinecone
 from dotenv import load_dotenv
@@ -174,13 +176,13 @@ def ask():
             for citation in response.citations:
                 for ref in citation.references:
                     try:
-                        pages = list(ref.pages)
+                        pages = sorted(list(ref.pages))
 
-                        page = max(pages) if pages else 1
+                        page = pages[0] if pages else 1
 
                         source = {
                             "title": get_section_title(page),
-                            "pages": pages
+                            "page": page
                         }
 
                         if source not in sources:
