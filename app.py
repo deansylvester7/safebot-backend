@@ -295,7 +295,8 @@ def ask():
 
         with open("logs.txt", "a", encoding="utf-8") as f:
             f.write(str(log_entry) + "\n")
-
+        
+        print("FINAL SOURCES:", sources)
         return jsonify({
             "answer": response.message.content,
             "sources": sources,
