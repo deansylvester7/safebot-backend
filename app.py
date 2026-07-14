@@ -285,8 +285,8 @@ def ask():
 
                     except Exception as e:
                         print("Citation error:", e)
-                        if preferred_section:
-                            sources = [preferred_section]
+        if preferred_section:
+            sources = [preferred_section]                
 
         log_entry = {
             "question": question,
