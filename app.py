@@ -90,6 +90,24 @@ def get_section_title(page):
             break
 
     return title
+def find_matching_section(question):
+    q = question.lower()
+
+    for start_page, section in SECTION_STARTS:
+        section_name = (
+            section.lower()
+            .replace(" program", "")
+            .replace(" safety", "")
+            .replace(" awareness", "")
+        )
+
+        if section_name in q:
+            return {
+                "title": section,
+                "page": start_page
+            }
+
+    return None
 
 app = Flask(__name__)
 print("APP VERSION WITH MANUAL ROUTE LOADED")
@@ -171,6 +189,7 @@ def ask():
         )
 
         sources = []
+        preferred_section = find_matching_section(question)
 
         if hasattr(response, "citations"):
             for citation in response.citations:
@@ -191,6 +210,14 @@ def ask():
 
                     except Exception as e:
                         print("Citation error:", e)
+                        if preferred_section:
+                            sources = [
+                                preferred_section,
+                                *[
+                                    s for s in sources
+                                    if s["title"] != preferred_section["title"]
+                                ]
+                            ]
 
         log_entry = {
             "question": question,
