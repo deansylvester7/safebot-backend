@@ -5,7 +5,6 @@ from pinecone import Pinecone
 from dotenv import load_dotenv
 from flask_cors import CORS
 import os
-print("APP VERSION 7.16.26 WITH EMPLOYEE HANDBOOK")
 load_dotenv()
 
 SECTION_STARTS = [
@@ -185,7 +184,7 @@ def find_matching_section(question):
 
 
 app = Flask(__name__)
-print("APP VERSION WITH MANUAL ROUTE LOADED")
+print("APP VERSION 7.16.26 WITH EMPLOYEE HANDBOOK")
 CORS(app)
 
 pc = Pinecone(
