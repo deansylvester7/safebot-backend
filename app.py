@@ -283,6 +283,8 @@ def ask():
         if hasattr(response, "citations"):
             for citation in response.citations:
                 for ref in citation.references:
+                    print(ref)
+                    print(vars(ref))
                     try:
                         pages = sorted(list(ref.pages))
                         print("Citation pages:", pages)
