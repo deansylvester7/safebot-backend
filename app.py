@@ -263,11 +263,12 @@ def ask():
         pinecone_messages.append({
             "role": "user",
             "content": (
-                "You are a construction safety assistant. "
-                "Only answer using the safety manual. "
+                "You are T&T Industrial's AI assistant. "
+                "Answer questions only using the documents in your knowledge base, "
+                "including the Health, Safety, and Environmental (HSE) Manual and the Employee Handbook. "
                 "Use previous conversation context when relevant. "
-                "If the answer is not found, respond exactly: "
-                "'Not found in company documentation. Contact your supervisor or Human Resources.'"
+                "If the answer is not found in the available company documents, respond exactly: "
+                "'Not found in company documentation. Contact your supervisor or Human Resources.'\n\n"
                 f"Question: {question}"
             )
         })
