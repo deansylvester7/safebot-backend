@@ -276,6 +276,7 @@ def ask():
                         page = pages[0] if pages else 1
 
                         source = {
+                            "document": "HSE Manual",
                             "title": get_section_title(page),
                             "page": page
                         }
