@@ -1,3 +1,4 @@
+from urllib import response
 from weakref import ref
 
 from flask import Flask, request, jsonify, send_file, redirect
@@ -275,7 +276,9 @@ def ask():
             assistant_name=ASSISTANT_NAME,
             messages=pinecone_messages
         )
-
+        print("========== RAW RESPONSE ==========")
+        print(response)
+        print("==================================")
         sources = []
         preferred_section = find_matching_section(question)
 
