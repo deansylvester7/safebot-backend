@@ -267,7 +267,7 @@ def ask():
                 "Only answer using the safety manual. "
                 "Use previous conversation context when relevant. "
                 "If the answer is not found, respond exactly: "
-                "'Not found in safety manual. Contact supervisor.'\n\n"
+                "'Not found in company documentation. Contact your supervisor or Human Resources.'"
                 f"Question: {question}"
             )
         })
