@@ -215,13 +215,12 @@ def manual():
         "TT_HSE_Manual.pdf"
     )
 
-    print("PDF PATH:", pdf_path)
-    print("FILE EXISTS:", os.path.exists(pdf_path))
-
     return send_file(
         pdf_path,
         mimetype="application/pdf"
     )
+
+
 @app.route("/handbook")
 def handbook():
     pdf_path = os.path.join(
@@ -230,13 +229,11 @@ def handbook():
         "Employee_Handbook.pdf"
     )
 
-    print("HANDBOOK PATH:", pdf_path)
-    print("FILE EXISTS:", os.path.exists(pdf_path))
-
     return send_file(
         pdf_path,
         mimetype="application/pdf"
     )
+
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -277,30 +274,29 @@ def ask():
             assistant_name=ASSISTANT_NAME,
             messages=pinecone_messages
         )
-        print("===== ANSWER =====")
-        print(response.message.content)
-        print("==================")
-        print("===== CITATIONS =====")
-        for citation in response.citations:
-            print(citation)
-        print("=====================")
-        
+
         sources = []
         preferred_section = find_matching_section(question)
 
         if hasattr(response, "citations"):
             for citation in response.citations:
                 for ref in citation.references:
-                    print(ref)                 
                     try:
                         pages = sorted(list(ref.pages))
-                        print("Citation pages:", pages)
-
                         page = pages[0] if pages else 1
 
+                        filename = ref.file
+
+                        if filename == "Employee_Handbook.pdf":
+                            document = "Employee Handbook"
+                            title = "Employee Handbook"
+                        else:
+                            document = "HSE Manual"
+                            title = get_section_title(page)
+
                         source = {
-                            "document": "HSE Manual",
-                            "title": get_section_title(page),
+                            "document": document,
+                            "title": title,
                             "page": page
                         }
 
@@ -309,8 +305,16 @@ def ask():
 
                     except Exception as e:
                         print("Citation error:", e)
+
         if preferred_section:
-            sources = [preferred_section]                
+            for i, source in enumerate(sources):
+                if source["document"] == "HSE Manual":
+                    sources[i] = {
+                        "document": "HSE Manual",
+                        "title": preferred_section["title"],
+                        "page": preferred_section["page"]
+                    }
+                    break
 
         log_entry = {
             "question": question,
@@ -319,8 +323,9 @@ def ask():
 
         with open("logs.txt", "a", encoding="utf-8") as f:
             f.write(str(log_entry) + "\n")
-        
+
         print("FINAL SOURCES:", sources)
+
         return jsonify({
             "answer": response.message.content,
             "sources": sources,
@@ -334,7 +339,7 @@ def ask():
             "error": str(e),
             "status": "error"
         }), 500
-
+        
 @app.route("/manual-viewer")
 def manual_viewer():
     return redirect("/static/pdfjs/web/viewer.html?file=/manual")
