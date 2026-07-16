@@ -222,7 +222,21 @@ def manual():
         pdf_path,
         mimetype="application/pdf"
     )
+@app.route("/handbook")
+def handbook():
+    pdf_path = os.path.join(
+        os.path.dirname(__file__),
+        "manuals",
+        "Employee_Handbook.pdf"
+    )
 
+    print("HANDBOOK PATH:", pdf_path)
+    print("FILE EXISTS:", os.path.exists(pdf_path))
+
+    return send_file(
+        pdf_path,
+        mimetype="application/pdf"
+    )
 
 @app.route("/ask", methods=["POST"])
 def ask():
@@ -315,6 +329,9 @@ def ask():
 @app.route("/manual-viewer")
 def manual_viewer():
     return redirect("/static/pdfjs/web/viewer.html?file=/manual")
+@app.route("/handbook-viewer")
+def handbook_viewer():
+    return redirect("/static/pdfjs/web/viewer.html?file=/handbook")
 
 if __name__ == "__main__":
     print(app.url_map)
