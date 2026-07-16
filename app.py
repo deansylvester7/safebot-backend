@@ -276,9 +276,14 @@ def ask():
             assistant_name=ASSISTANT_NAME,
             messages=pinecone_messages
         )
-        print("========== RAW RESPONSE ==========")
-        print(response)
-        print("==================================")
+        print("===== ANSWER =====")
+        print(response.message.content)
+        print("==================")
+        print("===== CITATIONS =====")
+        for citation in response.citations:
+            print(citation)
+        print("=====================")
+        
         sources = []
         preferred_section = find_matching_section(question)
 
