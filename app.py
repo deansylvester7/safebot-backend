@@ -201,6 +201,7 @@ def ask():
                         page = pages[0] if pages else 1
 
                         filename = ref.file
+                        print(ref)
                         print("FILE:", ref.file)
                         print("PAGES:", pages)
                         print("SECTION:", get_section_title(page))
