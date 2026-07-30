@@ -200,7 +200,7 @@ def ask():
                         pages = sorted(list(ref.pages))
                         page = pages[0] if pages else 1
 
-                        filename = ref.file
+                        filename = getattr(ref.file, "name", "")
                         print(ref)
                         print("FILE:", ref.file)
                         print("PAGES:", pages)
