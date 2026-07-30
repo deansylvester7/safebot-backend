@@ -276,7 +276,6 @@ def ask():
         )
 
         sources = []
-        preferred_section = find_matching_section(question)
 
         if hasattr(response, "citations"):
             for citation in response.citations:
@@ -287,18 +286,29 @@ def ask():
 
                         filename = ref.file
 
+                        # Employee Handbook
                         if filename == "Employee_Handbook.pdf":
-                            document = "Employee Handbook"
-                            title = "Employee Handbook"
-                        else:
-                            document = "HSE Manual"
-                            title = get_section_title(page)
+                            source = {
+                                "document": "Employee Handbook",
+                                "title": "Employee Handbook",
+                                "page": page,
+                            }
 
-                        source = {
-                            "document": document,
-                            "title": title,
-                            "page": page
-                        }
+                        # HSE Manual
+                        else:
+                            preferred_section = find_matching_section(question)
+
+                            if preferred_section:
+                                title = preferred_section["title"]
+                                page = preferred_section["page"]
+                            else:
+                                title = get_section_title(page)
+
+                            source = {
+                                "document": "HSE Manual",
+                                "title": title,
+                                "page": page,
+                            }
 
                         if source not in sources:
                             sources.append(source)
@@ -306,15 +316,7 @@ def ask():
                     except Exception as e:
                         print("Citation error:", e)
 
-        if preferred_section:
-            for i, source in enumerate(sources):
-                if source["document"] == "HSE Manual":
-                    sources[i] = {
-                        "document": "HSE Manual",
-                        "title": preferred_section["title"],
-                        "page": preferred_section["page"]
-                    }
-                    break
+        print("FINAL SOURCES:", sources)
 
         log_entry = {
             "question": question,
