@@ -79,6 +79,128 @@ SECTION_STARTS = [
     (489, "Overhead & Gantry Cranes"),
     (499, "Fleet Safety"),
 ]
+HANDBOOK_SECTION_STARTS = [
+    (4, "Welcome"),
+    (5, "T&T Industrial Commitments"),
+    (5, "Equal Opportunity Employment and No-Harassment Policy"),
+    (7, "Workplace Violence Policy"),
+    (8, "Anti-Retaliation Commitment"),
+    (8, "General Safety Policy"),
+    (8, "Drug and Alcohol-Free Workplace and Testing Policy"),
+    (12, "Smoke Free Workplace"),
+    (12, "Problem Resolution & Reporting Policy"),
+    (13, "Americans with Disabilities Act (ADA)"),
+    (14, "Religious Accommodation"),
+    
+    (14, "Employment"),
+    (14, "New Hires and Introductory Periods"),
+    (15, "Employment Authorization Verification"),
+    (15, "Reporting Changes to Personal Information"),
+    (15, "Employment of Relatives and Friends"),
+    (16, "Job Descriptions"),
+    (16, "Posting of Openings"),
+    (16, "Training Program"),
+
+    (16, "Workplace Guidelines & General Policies"),
+    (16, "Standards of Conduct"),
+    (17, "Attendance Policy"),
+    (18, "Personal Appearance"),
+    (18, "Suggestion Policy"),
+    (19, "Nonsolicitation/Nondistribution Policy"),
+    (19, "Employer Sponsored Social Events"),
+    (19, "Bulletin Boards"),
+    (19, "Access to Personnel and Medical Records Files"),
+    (20, "Third Party Disclosures"),
+
+    (20, "Wage and Hour Policies"),
+    (20, "Recording Time"),
+    (20, "Direct Deposit"),
+    (21, "Paycheck Deductions"),
+    (21, "Pay Period"),
+    (21, "Overtime"),
+    (21, "Job Abandonment"),
+    (21, "Meal and Rest Periods"),
+    (22, "Accommodations for Nursing Mothers"),
+
+    (22, "Employee Benefits"),
+    (23, "COBRA"),
+    (23, "Retirement Plan"),
+    (24, "Tuition Reimbursement"),
+    (24, "Leadership Development"),
+    (24, "Life Insurance"),
+    (24, "Short-Term Disability"),
+    (24, "Critical Illness Coverage"),
+    (25, "Accidental Coverage"),
+    (25, "Workers' Compensation Insurance Policy"),
+    (25, "Unemployment Compensation Insurance Policy"),
+    (25, "Paid Time Off (PTO)"),
+    (27, "Holidays"),
+    (28, "Sick Pay"),
+    (28, "Vacation Policy"),
+    (28, "Bereavement Leave"),
+    (28, "Voting Leave"),
+    (29, "Jury Duty Leave"),
+    (29, "Military Leave (USERRA)"),
+    (29, "Personal Leave of Absence"),
+    (30, "Family and Medical Leave Act (FMLA)"),
+
+    (33, "Job Performance"),
+    (33, "Performance Improvement"),
+    (33, "Pay Raises"),
+    (34, "Promotions"),
+    (34, "Performance Bonus"),
+    (34, "Transfers"),
+    (34, "Disciplinary Process"),
+    (34, "Criminal Activity/Arrests"),
+    (35, "Workforce Reductions (Layoffs)"),
+
+    (36, "Conflicts of Interest"),
+    (36, "Outside Employment"),
+
+    (37, "Customer Relations"),
+    (37, "Customer, Client, and Visitor Relations"),
+    (37, "Products and Services Knowledge"),
+
+    (37, "Trade Secrets and Inventions"),
+    (37, "Confidentiality and Nondisclosure of Trade Secrets"),
+    (38, "Inventions"),
+
+    (38, "Finance Policies"),
+    (38, "Business Expenses Policy"),
+    (38, "Travel Expenses"),
+    (41, "Use of Employer Credit Cards"),
+
+    (41, "Computer, Vehicle, and Equipment Use"),
+    (41, "Authorization for Use of Personal Vehicle"),
+    (41, "Use of Employer Vehicles"),
+    (42, "GPS Monitoring of Employer Vehicles"),
+    (42, "Personal Cell Phone/Mobile Device Use"),
+    (43, "Use of Company Technology"),
+    (44, "Computer Security and Copying of Software"),
+    (44, "Security"),
+    (44, "Social Media Policy"),
+    (45, "Workplace Privacy and Right to Inspect"),
+    (46, "Off-Duty Use of Employer Property or Premises"),
+
+    (46, "Termination of Employment"),
+    (46, "Resignation Policy"),
+    (47, "Post-Employment References"),
+    (47, "Exit Interview"),
+
+    (47, "Closing Statement"),
+    (48, "Acknowledgment of Receipt and Review"),
+]
+
+def get_handbook_section_title(page):
+    title = "Employee Handbook"
+
+    for start_page, section in HANDBOOK_SECTION_STARTS:
+        if page >= start_page:
+            title = section
+        else:
+            break
+
+    return title
 
 def get_section_title(page):
     for i, (start_page, title) in enumerate(SECTION_STARTS):
@@ -212,7 +334,7 @@ def ask():
                         if filename == "Employee_Handbook.pdf":
                             source = {
                                 "document": "Employee Handbook",
-                                "title": "Employee Handbook",
+                                "title": get_handbook_section_title(page),
                                 "page": page,
                             }
 
