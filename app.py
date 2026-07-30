@@ -198,7 +198,11 @@ def ask():
                 for ref in citation.references:
                     try:
                         pages = sorted(list(ref.pages))
-                        page = pages[0] if pages else 1
+
+                        if pages:
+                            page = pages[len(pages) // 2]
+                        else:
+                            page = 1
 
                         filename = getattr(ref.file, "name", "")
                         print(ref)
